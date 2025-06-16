@@ -1,4 +1,6 @@
-﻿namespace Stoiximen.Application.Mappers
+﻿using Stoiximen.Application.Dtos;
+
+namespace Stoiximen.Application.Mappers
 {
     public static class SubscriptionMapper
     {

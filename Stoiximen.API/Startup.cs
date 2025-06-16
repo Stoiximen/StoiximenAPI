@@ -18,13 +18,17 @@ public class Startup
         RegisterInternalServices(services);
         RegisterRepositories(services);
 
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAll", //TODO: GN
-                policy => policy.AllowAnyOrigin()
-                               .AllowAnyMethod()
-                               .AllowAnyHeader());
-        });
+        //services.AddAuthentication(options =>
+        //{
+        //    options.DefaultAuthenticateScheme = "Telegram";
+        //    options.DefaultChallengeScheme = "Telegram";
+        //});
+
+        //services.AddAuthorization(options =>
+        //{
+        //    options.AddPolicy("TelegramSignedIn", policy =>
+        //        policy.RequireClaim("TelegramId"));
+        //});
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,8 +42,9 @@ public class Startup
 
         app.UseHttpsRedirection();
         app.UseRouting();
-        app.UseCors("AllowAll");//TODO: GN
-        app.UseAuthorization();//TODO: GN
+
+        //app.UseAuthentication();
+        //app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {

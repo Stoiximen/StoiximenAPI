@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36202.13 d17.14
+VisualStudioVersion = 17.14.36202.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stoiximen.API", "Stoiximen.API\Stoiximen.API.csproj", "{AC81BE62-475B-4691-9A32-AAC35398B750}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stoiximen.Infrastructure", "Stoiximen.Infrastructure\Stoiximen.Infrastructure.csproj", "{7E489C6F-572D-4B32-8844-F98E11103FA9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stoiximen.Application", "Stoiximen.Application\Stoiximen.Application.csproj", "{ECDF0739-6A61-44CC-B3C6-7E4A19DCB4B7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stoiximen.Contracts", "Stoiximen.Contracts\Stoiximen.Contracts.csproj", "{0CAB515E-2568-4ACE-A3A5-BB0AEFF7656F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{ECDF0739-6A61-44CC-B3C6-7E4A19DCB4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECDF0739-6A61-44CC-B3C6-7E4A19DCB4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECDF0739-6A61-44CC-B3C6-7E4A19DCB4B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CAB515E-2568-4ACE-A3A5-BB0AEFF7656F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CAB515E-2568-4ACE-A3A5-BB0AEFF7656F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CAB515E-2568-4ACE-A3A5-BB0AEFF7656F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CAB515E-2568-4ACE-A3A5-BB0AEFF7656F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

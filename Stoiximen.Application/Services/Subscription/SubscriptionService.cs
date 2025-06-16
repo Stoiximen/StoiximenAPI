@@ -1,15 +1,20 @@
-﻿namespace Stoiximen.Application.Services.Subscription
+﻿using Stoiximen.Application.Dtos;
+
+namespace Stoiximen.Application.Services.Subscription
 {
     public class SubscriptionService : ISubscriptionService
     {
-        private readonly IMediator _mediator;
+        private readonly ISubscriptionRepository _subscriptionRepository;
 
-        public SubscriptionService(IMediator mediatr)
+        public SubscriptionService(ISubscriptionRepository subscriptionRepository)
         {
-            _mediator = mediatr;
+            _subscriptionRepository = subscriptionRepository;
         }
 
-        public Task<GetSubscriptionsResponse> GetSubscriptions(GetSubscriptionsQuery query)
-            => _mediator.Send(query);
+        public async Task<GetSubscriptionsResponse> GetSubscriptions()
+        {
+            var subscriptions = await _subscriptionRepository.GetAll();
+            return subscriptions.ToList().MapToSubscriptionResponse();
+        }
     }
 }

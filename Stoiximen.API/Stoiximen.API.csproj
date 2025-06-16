@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Stoiximen.Application\Stoiximen.Application.csproj" />
-    <ProjectReference Include="..\Stoiximen.Contracts\Stoiximen.Contracts.csproj" />
     <ProjectReference Include="..\Stoiximen.Infrastructure\Stoiximen.Infrastructure.csproj" />
   </ItemGroup>
 
