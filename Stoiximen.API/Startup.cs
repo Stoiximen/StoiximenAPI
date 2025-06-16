@@ -20,14 +20,8 @@ public class Startup
 
         //services.AddAuthentication(options =>
         //{
-        //    options.DefaultAuthenticateScheme = "Telegram";
-        //    options.DefaultChallengeScheme = "Telegram";
-        //});
-
-        //services.AddAuthorization(options =>
-        //{
-        //    options.AddPolicy("TelegramSignedIn", policy =>
-        //        policy.RequireClaim("TelegramId"));
+        //    options.defaultauthenticatescheme = "telegram";
+        //    options.defaultchallengescheme = "telegram";
         //});
     }
 
@@ -44,7 +38,6 @@ public class Startup
         app.UseRouting();
 
         //app.UseAuthentication();
-        //app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
