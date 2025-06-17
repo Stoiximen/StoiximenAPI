@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+using Stoiximen.Application.Dtos;
+using Stoiximen.Application.Services.Subscription;
+
 namespace Stoiximen.API.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class SubscriptionController : ControllerBase
+    public class SubscriptionController : BaseAuthenticatedController
     {
         private readonly ILogger<SubscriptionController> _logger;
         private readonly ISubscriptionService _subscriptionService;
@@ -13,8 +15,8 @@ namespace Stoiximen.API.Controllers
             _logger = logger;
         }
 
-        [Produces("application/json")]
-        [HttpGet(Name = "GetSubscriptions")]
+        [HttpGet]
+        [Route("subscriptions")]
         [ProducesResponseType(typeof(List<SubscriptionResource>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

@@ -1,4 +1,7 @@
-﻿namespace Stoiximen.Infrastructure.Repositories
+﻿using Stoiximen.Domain.Models.Subscription.Subscription;
+using Stoiximen.Domain.Repositories;
+
+namespace Stoiximen.Infrastructure.Repositories
 {
     public class SubscriptionRepository : ISubscriptionRepository
     {

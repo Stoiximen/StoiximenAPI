@@ -1,3 +1,7 @@
+using Stoiximen.Application.Services.Subscription;
+using Stoiximen.Domain.Repositories;
+using Stoiximen.Infrastructure.Repositories;
+
 public class Startup
 {
     public Startup(IConfiguration configuration)
@@ -12,8 +16,6 @@ public class Startup
     {
         services.AddControllers();
         services.AddSwaggerGen();
-
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Load("Stoiximen.Application")));
 
         RegisterInternalServices(services);
         RegisterRepositories(services);

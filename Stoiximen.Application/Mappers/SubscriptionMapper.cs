@@ -1,4 +1,5 @@
 ﻿using Stoiximen.Application.Dtos;
+using Stoiximen.Domain.Models.Subscription.Subscription;
 
 namespace Stoiximen.Application.Mappers
 {
