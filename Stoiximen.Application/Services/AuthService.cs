@@ -74,7 +74,7 @@ namespace Stoiximen.Application.Services
         private string ComputeHash(string authDataString)
         {
             // Create secret key from bot token
-            var secretKey = CreateSecretKey(_config.GetSection("TelegramBot:BotToken").Value ?? throw new ArgumentNullException(nameof(_config)); // Bot's token
+            var secretKey = CreateSecretKey(_config.GetSection("TelegramBot:BotToken").Value ?? throw new ArgumentNullException(nameof(_config))); // Bot's token
 
             // Compute HMAC-SHA256
             using var hmac = new HMACSHA256(secretKey);
