@@ -1,3 +1,4 @@
+using Stoiximen.Application.Services;
 using Stoiximen.Application.Services.Subscription;
 using Stoiximen.Domain.Repositories;
 using Stoiximen.Infrastructure.Repositories;
@@ -20,6 +21,15 @@ public class Startup
         RegisterInternalServices(services);
         RegisterRepositories(services);
 
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOrigins", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+        });
         //services.AddAuthentication(options =>
         //{
         //    options.defaultauthenticatescheme = "telegram";
@@ -38,7 +48,7 @@ public class Startup
 
         app.UseHttpsRedirection();
         app.UseRouting();
-
+        app.UseCors("AllowAllOrigins");
         //app.UseAuthentication();
 
         app.UseEndpoints(endpoints =>
@@ -51,6 +61,7 @@ public class Startup
     public void RegisterInternalServices(IServiceCollection services)
     {
         services.AddScoped<ISubscriptionService, SubscriptionService>();
+        services.AddScoped<IAuthService, AuthService>();
     }
 
     // Register repositories
