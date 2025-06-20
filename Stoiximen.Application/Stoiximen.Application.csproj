@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.5.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.6" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Stoiximen.Domain\Stoiximen.Domain.csproj" />
     <ProjectReference Include="..\Stoiximen.Infrastructure\Stoiximen.Infrastructure.csproj" />
   </ItemGroup>
