@@ -8,6 +8,7 @@
 
         // JWT
         string JwtSecretKey { get; }
+        string JwtSalt { get; }
         string JwtIssuer { get; }
         string JwtAudience { get; }
         int JwtExpirationMinutes { get; }

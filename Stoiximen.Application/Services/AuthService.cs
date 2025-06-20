@@ -1,6 +1,9 @@
-﻿using Stoiximen.Application.Dtos;
+﻿using Microsoft.IdentityModel.Tokens;
+using Stoiximen.Application.Dtos;
 using Stoiximen.Application.Interfaces;
 using Stoiximen.Infrastructure.Interfaces;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -19,7 +22,7 @@ namespace Stoiximen.Application.Services
         {
             if (IsTelegramHashValid(telegramData))
             {
-                var token = GenerateToken(telegramData);
+                var token = GenerateJwtToken(telegramData);
                 return Task.FromResult(token);
             }
             else
@@ -58,13 +61,6 @@ namespace Stoiximen.Application.Services
             return telegramData.Hash.Equals(computedHash, StringComparison.OrdinalIgnoreCase);
         }
 
-        private string GenerateToken(TelegramAuthRequest telegramData)
-        {
-            // Here you would implement the logic to generate a JWT token based on the telegramData
-            // For now, we will return a dummy token
-            return "dummy_token"; // Replace with actual token generation logic
-        }
-
         private static byte[] CreateSecretKey(string botToken)
         {
             using var sha256 = SHA256.Create();
@@ -94,7 +90,39 @@ namespace Stoiximen.Application.Services
                 "Hash" => "hash",
                 _ => throw new ArgumentException($"Unknown property: {propertyName}")
             };
-
         }
+
+        private string GenerateJwtToken(TelegramAuthRequest telegramData)
+        {
+            var saltedKey = _config.JwtSecretKey + _config.JwtSalt;
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(saltedKey));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            //Create claims for the user
+            var claims = new[]
+            {
+                new Claim("telegram_id", telegramData.Id),
+                new Claim("first_name", telegramData.FirstName ?? string.Empty),
+                new Claim("last_name", telegramData.LastName ?? string.Empty),
+                new Claim("auth_date", telegramData.AuthDate),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat,
+                    new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
+                    ClaimValueTypes.Integer64)
+            };
+
+            //Create the token
+            var token = new JwtSecurityToken(
+                issuer: _config.JwtIssuer,
+                audience: _config.JwtAudience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_config.JwtExpirationMinutes),
+                signingCredentials: credentials
+            );
+
+            // Return the serialized token
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
     }
 }
