@@ -14,9 +14,9 @@ namespace Stoiximen.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<UserResource> GetUserById(string id)
+        public UserResource GetUserById(string id)
         {
-            var user = await _userRepository.GetUserById(id);
+            var user = _userRepository.GetUserById(id);
             return user.MapToUserResource();
         }
     }

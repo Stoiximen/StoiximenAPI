@@ -12,5 +12,8 @@
         string JwtIssuer { get; }
         string JwtAudience { get; }
         int JwtExpirationMinutes { get; }
+
+        // DB
+        string DbConnectionString { get; }
     }
 }

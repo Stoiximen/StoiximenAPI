@@ -1,29 +1,19 @@
 ﻿using Stoiximen.Domain.Models;
 using Stoiximen.Domain.Repositories;
+using Stoiximen.Infrastructure.EF.Context;
 
 namespace Stoiximen.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : AsyncRepository<User>, IUserRepository
     {
-        public Task<User> GetUserById(string id)
+        public UserRepository(StoiximenDbContext context) : base(context)
         {
-            var users = new List<User>
-            {
-                new User
-                {
-                    Id = "7750369537",
-                    Name = "Tony",
-                    SubscriptionStatus = 0 // Simulating subscription status
-                },
-                new User
-                {
-                    Id = "1234567890",
-                    Name = "John",
-                    SubscriptionStatus = 1 // Simulating subscription status
-                }
-            };
 
-            return Task.FromResult(users.FirstOrDefault(user => user.Id == id));
+        }
+
+        public User? GetUserById(string id)
+        {
+            return _context.Users.FirstOrDefault(user => user.Id == id);
         }
     }
 

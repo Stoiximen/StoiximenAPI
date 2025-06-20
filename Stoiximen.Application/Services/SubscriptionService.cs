@@ -14,9 +14,9 @@ namespace Stoiximen.Application.Services
             _subscriptionRepository = subscriptionRepository;
         }
 
-        public async Task<GetSubscriptionsResponse> GetSubscriptions()
+        public GetSubscriptionsResponse GetSubscriptions()
         {
-            var subscriptions = await _subscriptionRepository.GetAll();
+            var subscriptions = _subscriptionRepository.GetAll();
             return subscriptions.ToList().MapToSubscriptionResponse();
         }
     }

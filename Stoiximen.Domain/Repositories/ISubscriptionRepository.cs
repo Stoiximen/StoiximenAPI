@@ -1,10 +1,9 @@
-﻿
-using Stoiximen.Domain.Models;
+﻿using Stoiximen.Domain.Models;
 
 namespace Stoiximen.Domain.Repositories
 {
     public interface ISubscriptionRepository
     {
-        Task<IEnumerable<Subscription>> GetAll();
+        IEnumerable<Subscription> GetAll();
     }
 }

@@ -12,6 +12,7 @@ namespace Stoiximen.Infrastructure.Services
         public string JwtIssuer { get; }
         public string JwtAudience { get; }
         public int JwtExpirationMinutes { get; }
+        public string DbConnectionString { get; }
 
         public StoiximenConfiguration(IConfiguration configuration)
         {
@@ -22,6 +23,7 @@ namespace Stoiximen.Infrastructure.Services
             JwtIssuer = configuration["Security:Cryptography:AuthToken:Issuer"] ?? throw new ArgumentNullException("JWT Issuer not configured");
             JwtAudience = configuration["Security:Cryptography:AuthToken:Audience"] ?? throw new ArgumentNullException("JWT Audience not configured");
             JwtExpirationMinutes = int.Parse(configuration["Security:Cryptography:AuthToken:ExpirationMinutes"] ?? "60");
+            DbConnectionString = configuration["ConnectionStrings:StoiximenDb"] ?? throw new ArgumentNullException("Database connection string not configured");
         }
     }
 }

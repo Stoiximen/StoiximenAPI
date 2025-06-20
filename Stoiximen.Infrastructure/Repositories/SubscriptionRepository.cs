@@ -1,21 +1,19 @@
 ﻿using Stoiximen.Domain.Models;
 using Stoiximen.Domain.Repositories;
+using Stoiximen.Infrastructure.EF.Context;
 
 namespace Stoiximen.Infrastructure.Repositories
 {
-    public class SubscriptionRepository : ISubscriptionRepository
+    public class SubscriptionRepository : AsyncRepository<Subscription>, ISubscriptionRepository
     {
-        public Task<IEnumerable<Subscription>> GetAll()
+        public SubscriptionRepository(StoiximenDbContext context) : base(context)
         {
-            var subscriptions = Enumerable.Range(1, 5).Select(index => new Subscription
-            {
-                Id = index,
-                Name = $"Subscription - {index}",
-                Description = $"Description for subscription {index}",
-                Price = 1000
-            });
 
-            return Task.FromResult(subscriptions);
+        }
+
+        public IEnumerable<Subscription> GetAll()
+        {
+            return _context.Subscriptions;
         }
     }
 }
