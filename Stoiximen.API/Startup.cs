@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Stoiximen.Application.Interfaces;
 using Stoiximen.Application.Services;
 using Stoiximen.Domain.Repositories;
@@ -15,13 +16,50 @@ public class Startup
         Configuration = configuration;
     }
 
-    private  IConfiguration Configuration { get; }
+    private IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
-        services.AddSwaggerGen();
+
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Stoiximen API",
+                Version = "v1",
+                Description = "API for Stoiximen application with JWT authentication"
+            });
+
+            // Add JWT Bearer authentication to Swagger
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "JWT Authorization header using the Bearer scheme. Enter your JWT token below."
+            });
+
+            // Apply JWT security globally to all endpoints
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                }
+            });
+
+        });
 
         ConfigureAuthentication(services);
         RegisterInternalServices(services);
@@ -49,7 +87,7 @@ public class Startup
 
         app.UseHttpsRedirection();
         app.UseRouting();
-        
+
         app.UseCors("AllowAllOrigins");
 
         app.UseAuthentication();
