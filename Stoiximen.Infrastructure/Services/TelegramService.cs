@@ -1,6 +1,6 @@
 ﻿namespace Stoiximen.Infrastructure.Services
 {
-    internal class TelegramService
+    public class TelegramService
     {
     }
 }

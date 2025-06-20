@@ -1,4 +1,4 @@
-﻿namespace Stoiximen.Domain.Models.Subscription.Subscription
+﻿namespace Stoiximen.Domain.Models
 {
     public class Subscription
     {

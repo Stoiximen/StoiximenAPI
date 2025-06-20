@@ -1,4 +1,4 @@
-﻿using Stoiximen.Domain.Models.Subscription.Subscription;
+﻿using Stoiximen.Domain.Models;
 using Stoiximen.Domain.Repositories;
 
 namespace Stoiximen.Infrastructure.Repositories

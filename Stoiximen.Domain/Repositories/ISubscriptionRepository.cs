@@ -1,5 +1,5 @@
 ﻿
-using Stoiximen.Domain.Models.Subscription.Subscription;
+using Stoiximen.Domain.Models;
 
 namespace Stoiximen.Domain.Repositories
 {
