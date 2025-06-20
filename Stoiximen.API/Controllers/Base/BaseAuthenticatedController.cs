@@ -9,9 +9,9 @@ namespace Stoiximen.API.Controllers
         {
         }
 
-        protected string GetUserIdFromToken()
+        protected string? GetUserIdFromToken()
         {
-            return User.Claims.FirstOrDefault(c => c.Type == "telegram_id")?.Value;
+            return User?.Claims?.FirstOrDefault(c => c.Type == "telegram_id")?.Value;
         }
     }
 }
