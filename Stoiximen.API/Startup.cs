@@ -1,6 +1,7 @@
 using Stoiximen.Application.Services;
 using Stoiximen.Domain.Repositories;
 using Stoiximen.Infrastructure.Repositories;
+using Stoiximen.Infrastructure.Services;
 
 public class Startup
 {
@@ -59,6 +60,7 @@ public class Startup
     // Register services
     public void RegisterInternalServices(IServiceCollection services)
     {
+        services.AddSingleton<IStoiximenConfiguration, StoiximenConfiguration>();
         services.AddScoped<ISubscriptionService, SubscriptionService>();
         services.AddScoped<IAuthService, AuthService>();
     }

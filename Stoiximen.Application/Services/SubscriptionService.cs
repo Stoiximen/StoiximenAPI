@@ -1,6 +1,5 @@
 ﻿using Stoiximen.Application.Dtos;
 using Stoiximen.Application.Mappers;
-using Stoiximen.Application.Services.Subscription;
 using Stoiximen.Domain.Repositories;
 
 namespace Stoiximen.Application.Services

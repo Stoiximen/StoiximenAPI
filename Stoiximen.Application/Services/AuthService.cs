@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Stoiximen.Application.Dtos;
-using Stoiximen.Application.Services.Subscription;
+﻿using Stoiximen.Application.Dtos;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,9 +6,9 @@ namespace Stoiximen.Application.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IConfiguration _config;
+        private readonly IStoiximenConfiguration _config;
 
-        public AuthService(IConfiguration config)
+        public AuthService(IStoiximenConfiguration config)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
@@ -74,7 +72,7 @@ namespace Stoiximen.Application.Services
         private string ComputeHash(string authDataString)
         {
             // Create secret key from bot token
-            var secretKey = CreateSecretKey(_config.GetSection("TelegramBot:Token").Value ?? throw new ArgumentNullException(nameof(_config))); // Bot's token
+            var secretKey = CreateSecretKey(_config.TelegramBotToken);
 
             // Compute HMAC-SHA256
             using var hmac = new HMACSHA256(secretKey);
