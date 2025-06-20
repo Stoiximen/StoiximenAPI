@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Stoiximen.Domain\Stoiximen.Domain.csproj" />
+    <ProjectReference Include="..\Stoiximen.Infrastructure\Stoiximen.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

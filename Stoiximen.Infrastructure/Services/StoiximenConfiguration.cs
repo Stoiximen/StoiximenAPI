@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Stoiximen.Application.Services;
+using Stoiximen.Infrastructure.Interfaces;
 
 namespace Stoiximen.Infrastructure.Services
 {

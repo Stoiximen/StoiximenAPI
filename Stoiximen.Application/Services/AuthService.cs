@@ -1,4 +1,6 @@
 ﻿using Stoiximen.Application.Dtos;
+using Stoiximen.Application.Interfaces;
+using Stoiximen.Infrastructure.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
 

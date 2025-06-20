@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Stoiximen.Application.Dtos;
-using Stoiximen.Application.Services;
+using Stoiximen.Application.Interfaces;
 
 namespace Stoiximen.API.Controllers
 {

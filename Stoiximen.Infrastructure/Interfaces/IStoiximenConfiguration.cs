@@ -1,4 +1,4 @@
-﻿namespace Stoiximen.Application.Services
+﻿namespace Stoiximen.Infrastructure.Interfaces
 {
     public interface IStoiximenConfiguration
     {

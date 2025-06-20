@@ -1,6 +1,6 @@
 ﻿using Stoiximen.Application.Dtos;
 
-namespace Stoiximen.Application.Services
+namespace Stoiximen.Application.Interfaces
 {
     public interface ISubscriptionService 
     {

@@ -1,4 +1,5 @@
 ﻿using Stoiximen.Application.Dtos;
+using Stoiximen.Application.Interfaces;
 using Stoiximen.Application.Mappers;
 using Stoiximen.Domain.Repositories;
 
