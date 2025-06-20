@@ -4,12 +4,12 @@ using Stoiximen.Application.Interfaces;
 
 namespace Stoiximen.API.Controllers
 {
-    public class UserController : BaseAuthenticatedController
+    public class UsersController : BaseAuthenticatedController
     {
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<UsersController> _logger;
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        public UsersController(IUserService userService, ILogger<UsersController> logger)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _logger = logger;
@@ -23,12 +23,14 @@ namespace Stoiximen.API.Controllers
         public async Task<IActionResult> Get()
         {
             var id = GetUserIdFromToken();
+
             if (string.IsNullOrEmpty(id))
             {
                 return BadRequest("User ID is not available in the token.");
             }
 
             var response = await _userService.GetUserById(id);
+
             if (response == null)
             {
                 return NotFound($"User with ID {id} not found.");

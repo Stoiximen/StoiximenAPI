@@ -4,19 +4,18 @@ using Stoiximen.Application.Interfaces;
 
 namespace Stoiximen.API.Controllers
 {
-    public class SubscriptionController : BaseAuthenticatedController
+    public class SubscriptionsController : BaseAuthenticatedController
     {
-        private readonly ILogger<SubscriptionController> _logger;
+        private readonly ILogger<SubscriptionsController> _logger;
         private readonly ISubscriptionService _subscriptionService;
 
-        public SubscriptionController(ISubscriptionService subscriptionService, ILogger<SubscriptionController> logger)
+        public SubscriptionsController(ISubscriptionService subscriptionService, ILogger<SubscriptionsController> logger)
         {
             _subscriptionService = subscriptionService ?? throw new ArgumentNullException(nameof(subscriptionService));
             _logger = logger;
         }
 
         [HttpGet]
-        [Route("subscriptions")]
         [ProducesResponseType(typeof(List<SubscriptionResource>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
