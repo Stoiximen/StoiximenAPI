@@ -17,7 +17,7 @@ namespace Stoiximen.Application.Services
 
         public Task<string> ValidateTelegramHashAndGenerateToken(TelegramAuthRequest telegramData)
         {
-            if (IsTelegramHasValid(telegramData))
+            if (IsTelegramHashValid(telegramData))
             {
                 var token = GenerateToken(telegramData);
                 return Task.FromResult(token);
@@ -28,7 +28,7 @@ namespace Stoiximen.Application.Services
             }
         }
 
-        private bool IsTelegramHasValid(TelegramAuthRequest telegramData)
+        private bool IsTelegramHashValid(TelegramAuthRequest telegramData)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
