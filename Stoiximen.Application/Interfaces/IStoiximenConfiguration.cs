@@ -1,8 +1,8 @@
 ﻿using Stoiximen.Application.Dtos;
 
-namespace Stoiximen.Application.Services
+namespace Stoiximen.Application.Services.Subscription
 {
-    public interface ISubscriptionService 
+    public interface IStoiximenConfiguration
     {
         public Task<GetSubscriptionsResponse> GetSubscriptions();
     }

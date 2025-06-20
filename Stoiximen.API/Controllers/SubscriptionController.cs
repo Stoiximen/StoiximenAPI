@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Stoiximen.Application.Dtos;
-using Stoiximen.Application.Services.Subscription;
+using Stoiximen.Application.Services;
 
 namespace Stoiximen.API.Controllers
 {

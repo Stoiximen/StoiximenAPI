@@ -1,6 +1,6 @@
 ﻿using Stoiximen.Application.Dtos;
 
-namespace Stoiximen.Application.Services.Subscription
+namespace Stoiximen.Application.Services
 {
     public interface IAuthService
     {
