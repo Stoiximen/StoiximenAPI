@@ -140,6 +140,7 @@ public class Startup
     {
         services.AddSingleton<IStoiximenConfiguration, StoiximenConfiguration>();
         services.AddScoped<ISubscriptionService, SubscriptionService>();
+        services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthService, AuthService>();
     }
 
@@ -147,5 +148,6 @@ public class Startup
     public void RegisterRepositories(IServiceCollection services)
     {
         services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }

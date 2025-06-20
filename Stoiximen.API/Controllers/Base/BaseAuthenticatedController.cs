@@ -8,5 +8,10 @@ namespace Stoiximen.API.Controllers
         public BaseAuthenticatedController()
         {
         }
+
+        protected string GetUserIdFromToken()
+        {
+            return User.Claims.FirstOrDefault(c => c.Type == "telegram_id")?.Value;
+        }
     }
 }
