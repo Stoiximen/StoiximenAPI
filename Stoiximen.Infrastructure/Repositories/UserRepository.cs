@@ -4,17 +4,9 @@ using Stoiximen.Infrastructure.EF.Context;
 
 namespace Stoiximen.Infrastructure.Repositories
 {
-    public class UserRepository : AsyncRepository<User>, IUserRepository
+    public class UserRepository : BaseRepository<User, string>, IUserRepository
     {
-        public UserRepository(StoiximenDbContext context) : base(context)
-        {
+        public UserRepository(StoiximenDbContext context) : base(context) { }
 
-        }
-
-        public User? GetUserById(string id)
-        {
-            return _context.Users.FirstOrDefault(user => user.Id == id);
-        }
     }
-
 }

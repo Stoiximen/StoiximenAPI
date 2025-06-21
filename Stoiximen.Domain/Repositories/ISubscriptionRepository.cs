@@ -2,8 +2,7 @@
 
 namespace Stoiximen.Domain.Repositories
 {
-    public interface ISubscriptionRepository
+    public interface ISubscriptionRepository : IBaseRepository<Subscription, int>
     {
-        IEnumerable<Subscription> GetAll();
     }
 }

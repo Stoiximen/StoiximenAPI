@@ -1,6 +1,6 @@
 ﻿namespace Stoiximen.Domain.Models
 {
-    public class Subscription
+    public class Subscription : SoftDeletableEntity, IEntity<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

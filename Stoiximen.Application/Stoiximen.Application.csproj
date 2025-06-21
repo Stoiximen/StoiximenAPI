@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.12.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Stoiximen.Domain\Stoiximen.Domain.csproj" />
     <ProjectReference Include="..\Stoiximen.Infrastructure\Stoiximen.Infrastructure.csproj" />
   </ItemGroup>

@@ -4,6 +4,6 @@ namespace Stoiximen.Application.Interfaces
 {
     public interface ISubscriptionService 
     {
-        public GetSubscriptionsResponse GetSubscriptions();
+        Task<GetSubscriptionsResponse> GetSubscriptions();
     }
 }

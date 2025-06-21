@@ -19,9 +19,9 @@ namespace Stoiximen.API.Controllers
         [ProducesResponseType(typeof(List<SubscriptionResource>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var response = _subscriptionService.GetSubscriptions();
+            var response = await _subscriptionService.GetSubscriptions();
 
             return Ok(response);
         }

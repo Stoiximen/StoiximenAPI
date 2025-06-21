@@ -2,8 +2,8 @@
 
 namespace Stoiximen.Application.Interfaces
 {
-    public interface IUserService 
+    public interface IUserService
     {
-        public UserResource GetUserById(string id);
+        Task<UserResource> GetUserById(string id);
     }
 }

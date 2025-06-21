@@ -2,8 +2,7 @@
 
 namespace Stoiximen.Domain.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User, string>
     {
-        User? GetUserById(string id);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stoiximen.API.Middleware;
 using Stoiximen.Application.Interfaces;
 using Stoiximen.Application.Services;
 using Stoiximen.Domain.Repositories;
@@ -10,6 +11,7 @@ using Stoiximen.Infrastructure.Interfaces;
 using Stoiximen.Infrastructure.Repositories;
 using Stoiximen.Infrastructure.Services;
 using System.Text;
+using System.Threading.RateLimiting;
 
 public class Startup
 {
@@ -25,24 +27,17 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
-
+        services.AddHttpContextAccessor();
+        
+        //.Net standards
         ConfigureSwagger(services);
+        ConfigureRateLimiting(services);
         ConfigureAuthentication(services);
+        ConfigureDatabase(services);
+        ConfigureCors(services);
+
         RegisterInternalServices(services);
         RegisterRepositories(services);
-
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAllOrigins", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            });
-        });
-
-        services.AddDbContext<StoiximenDbContext>(options =>
-            options.UseSqlServer(_config.DbConnectionString)); // Replace this with postgress and remove sql package later
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,11 +49,14 @@ public class Startup
             app.UseSwaggerUI();
         }
 
+        app.UseMiddleware<GlobalExceptionMiddleware>();
+
         app.UseHttpsRedirection();
         app.UseRouting();
 
         app.UseCors("AllowAllOrigins");
 
+        app.UseRateLimiter();
         app.UseAuthentication();
         app.UseAuthorization();
 
@@ -82,24 +80,6 @@ public class Startup
             options.SaveToken = true;
             options.TokenValidationParameters = CreateTokenValidationParameters();
         });
-    }
-
-    private TokenValidationParameters CreateTokenValidationParameters()
-    {
-        var saltedKey = _config.JwtSecretKey + _config.JwtSalt;
-        var key = Encoding.UTF8.GetBytes(saltedKey);
-
-        return new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = true,
-            ValidIssuer = _config.JwtIssuer,
-            ValidateAudience = true,
-            ValidAudience = _config.JwtAudience,
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
-        };
     }
 
     // Register services
@@ -156,6 +136,60 @@ public class Startup
                 }
             });
 
+        });
+    }
+
+    private void ConfigureDatabase(IServiceCollection services)
+    {
+        services.AddDbContext<StoiximenDbContext>(options =>
+        {
+            options.UseSqlServer(_config.DbConnectionString);
+        });
+    }
+
+    private void ConfigureCors(IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOrigins", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+        });
+    }
+
+    private TokenValidationParameters CreateTokenValidationParameters()
+    {
+        var saltedKey = _config.JwtSecretKey + _config.JwtSalt;
+        var key = Encoding.UTF8.GetBytes(saltedKey);
+
+        return new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidIssuer = _config.JwtIssuer,
+            ValidateAudience = true,
+            ValidAudience = _config.JwtAudience,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    }
+
+    private void ConfigureRateLimiting(IServiceCollection services)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: "global",
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = _config.RequestLimit,
+                        Window = TimeSpan.FromMinutes(1)
+                    }));
         });
     }
 }

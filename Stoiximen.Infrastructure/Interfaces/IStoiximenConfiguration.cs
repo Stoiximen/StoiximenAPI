@@ -15,5 +15,7 @@
 
         // DB
         string DbConnectionString { get; }
+
+        int RequestLimit { get; }
     }
 }

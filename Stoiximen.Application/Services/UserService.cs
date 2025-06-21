@@ -14,9 +14,15 @@ namespace Stoiximen.Application.Services
             _userRepository = userRepository;
         }
 
-        public UserResource GetUserById(string id)
+        public async Task<UserResource> GetUserById(string id)
         {
-            var user = _userRepository.GetUserById(id);
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user is null)
+            {
+                throw new ArgumentNullException($"User with id : {id} not found");
+            }
+
             return user.MapToUserResource();
         }
     }

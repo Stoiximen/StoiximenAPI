@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Stoiximen.Application.Dtos;
 using Stoiximen.Application.Interfaces;
 using Stoiximen.Infrastructure.Interfaces;
@@ -12,22 +13,31 @@ namespace Stoiximen.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IStoiximenConfiguration _config;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IStoiximenConfiguration config)
+        public AuthService(IStoiximenConfiguration config, ILogger<AuthService> logger)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public Task<string> ValidateTelegramHashAndGenerateToken(TelegramAuthRequest telegramData)
         {
+            _logger.LogInformation("Authentication attempt for Telegram user {TelegramId}", telegramData.Id);
+
             if (IsTelegramHashValid(telegramData))
             {
+                _logger.LogInformation("Hash validation successful for user {TelegramId}", telegramData.Id);
+
                 var token = GenerateJwtToken(telegramData);
+
+                _logger.LogInformation("JWT token generated for user {TelegramId}", telegramData.Id);
+
                 return Task.FromResult(token);
             }
             else
             {
-                throw new UnauthorizedAccessException("Invalid Telegram authentication data.");
+                throw new UnauthorizedAccessException($"Invalid Telegram authentication data for {telegramData.Id}.");
             }
         }
 
@@ -41,7 +51,7 @@ namespace Stoiximen.Application.Services
                 if (value != null)
                 {
                     var key = GetKey(prop.Name);
-                    if(key == "hash")
+                    if (key == "hash")
                     {
                         // Skip hash property as it will be computed
                         return;
@@ -102,8 +112,8 @@ namespace Stoiximen.Application.Services
             var claims = new[]
             {
                 new Claim("telegram_id", telegramData.Id),
-                new Claim("first_name", telegramData.FirstName ?? string.Empty),
-                new Claim("last_name", telegramData.LastName ?? string.Empty),
+                new Claim("first_name", telegramData.FirstName),
+                new Claim("last_name", telegramData.LastName),
                 new Claim("auth_date", telegramData.AuthDate),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat,

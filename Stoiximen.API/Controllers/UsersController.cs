@@ -20,7 +20,7 @@ namespace Stoiximen.API.Controllers
         [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             var id = GetUserIdFromToken();
 
@@ -29,7 +29,7 @@ namespace Stoiximen.API.Controllers
                 return BadRequest("User ID is not available in the token.");
             }
 
-            var response =  _userService.GetUserById(id);
+            var response = await _userService.GetUserById(id);
 
             if (response == null)
             {
