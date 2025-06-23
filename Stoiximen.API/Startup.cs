@@ -29,6 +29,15 @@ public class Startup
         services.AddControllers();
         services.AddHttpContextAccessor();
         
+        services.AddHttpClient("TelegramBotClient", client =>
+        {
+        });
+
+        //services.AddHttpClient("TelegramBotClient", client =>
+        //{
+        //    client.BaseAddress = new Uri("https://api.telegram.org/");
+        //});
+
         //.Net standards
         ConfigureSwagger(services);
         ConfigureRateLimiting(services);
@@ -37,6 +46,7 @@ public class Startup
         ConfigureCors(services);
 
         RegisterInternalServices(services);
+        RegisterExternalServices(services);
         RegisterRepositories(services);
     }
 
@@ -81,6 +91,7 @@ public class Startup
             options.TokenValidationParameters = CreateTokenValidationParameters();
         });
     }
+    
 
     // Register services
     private void RegisterInternalServices(IServiceCollection services)
@@ -89,6 +100,11 @@ public class Startup
         services.AddScoped<ISubscriptionService, SubscriptionService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthService, AuthService>();
+    }
+
+    private void RegisterExternalServices(IServiceCollection services)
+    {
+        services.AddScoped<ITelegramService, TelegramService>();
     }
 
     // Register repositories

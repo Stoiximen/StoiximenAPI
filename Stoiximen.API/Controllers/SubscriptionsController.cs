@@ -25,5 +25,20 @@ namespace Stoiximen.API.Controllers
 
             return Ok(response);
         }
+
+
+        [HttpPost]
+        [Route("subscribe/{{id}}:int")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Subscribe([FromRoute] int id)
+        {
+            var userId = GetUserIdFromToken();
+
+            var resposne = await _subscriptionService.Subscribe(id, userId);
+
+            return Ok(resposne);
+        }
     }
 }
