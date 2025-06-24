@@ -28,7 +28,7 @@ namespace Stoiximen.API.Controllers
 
 
         [HttpPost]
-        [Route("subscribe/{{id}}:int")]
+        [Route("subscribe/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -36,9 +36,9 @@ namespace Stoiximen.API.Controllers
         {
             var userId = GetUserIdFromToken();
 
-            var resposne = await _subscriptionService.Subscribe(id, userId);
+            var response = await _subscriptionService.Subscribe(id, userId);
 
-            return Ok(resposne);
+            return Ok(response);
         }
     }
 }

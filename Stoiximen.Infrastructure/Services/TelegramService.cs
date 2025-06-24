@@ -1,7 +1,5 @@
-﻿using Stoiximen.Infrastructure.Interfaces;
-using Stoiximen.Infrastructure.Models;
-using System.Text.Json;
-
+﻿using Newtonsoft.Json;
+using Stoiximen.Infrastructure.Interfaces;
 namespace Stoiximen.Infrastructure.Services
 {
     public class TelegramService : ITelegramService
@@ -19,10 +17,15 @@ namespace Stoiximen.Infrastructure.Services
 
         public async Task<TelegramInviteLinkResponse> InviteUserToGroupChat(string userId)
         {
-            var response = await _httpClient.GetAsync("https://api.telegram.org/bot7061221080:AAEm3Jv3ki21qoLDS081yDc5QIroM4v4NU0/createChatInviteLink?chat_id=-1002824203400&member_limit=1");
-            var responseBody = await response.Content.ReadAsStringAsync();
+            var inviteLinkResponse = await _httpClient.GetAsync($"https://api.telegram.org/bot{_config.TelegramBotToken}/createChatInviteLink?chat_id={_config.TelegramChatId}&member_limit=1");
+            var responseBody = await inviteLinkResponse.Content.ReadAsStringAsync();
+            var inviteResponse = JsonConvert.DeserializeObject<TelegramInviteLinkResponse>(responseBody);
 
-            var inviteResponse = JsonSerializer.Deserialize<TelegramInviteLinkResponse>(responseBody);
+            var str = $"https://api.telegram.org/bot{_config.TelegramBotToken}/sendMessage?chat_id={userId}&text=pata edw   {inviteResponse.Result.InviteLink}";
+
+            var sendMessageResponse = await _httpClient.GetAsync(str);
+
+            
             return inviteResponse;
         }
     }

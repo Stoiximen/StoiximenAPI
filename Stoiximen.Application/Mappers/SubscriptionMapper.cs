@@ -1,5 +1,6 @@
 ﻿using Stoiximen.Application.Dtos;
 using Stoiximen.Domain.Models;
+using Stoiximen.Infrastructure.Interfaces;
 
 namespace Stoiximen.Application.Mappers
 {
@@ -21,6 +22,23 @@ namespace Stoiximen.Application.Mappers
                     Price = sub.Price,
                     Name = sub.Name
                 }).ToList()
+            };
+
+            return response;
+        }
+
+        public static SubscribeResponse MapToSubscribeResponse(this TelegramInviteLinkResponse inviteLinkResponse)
+        {
+            if (inviteLinkResponse is null
+                || inviteLinkResponse.Result is null
+                || string.IsNullOrEmpty(inviteLinkResponse.Result.InviteLink))
+            {
+                return new SubscribeResponse { InviteLink = string.Empty };
+            }
+
+            var response = new SubscribeResponse()
+            {
+                InviteLink = inviteLinkResponse.Result.InviteLink
             };
 
             return response;
