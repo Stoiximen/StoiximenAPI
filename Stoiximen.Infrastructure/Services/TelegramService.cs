@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Stoiximen.Infrastructure.HttpClients.Models;
 using Stoiximen.Infrastructure.Interfaces;
 namespace Stoiximen.Infrastructure.Services
 {

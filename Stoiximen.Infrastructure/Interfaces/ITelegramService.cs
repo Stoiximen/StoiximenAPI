@@ -1,4 +1,6 @@
-﻿namespace Stoiximen.Infrastructure.Interfaces
+﻿using Stoiximen.Infrastructure.HttpClients.Models;
+
+namespace Stoiximen.Infrastructure.Interfaces
 {
     public interface ITelegramService
     {

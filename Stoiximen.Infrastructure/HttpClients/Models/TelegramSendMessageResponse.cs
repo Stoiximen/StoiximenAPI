@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Stoiximen.Infrastructure.Interfaces
+namespace Stoiximen.Infrastructure.HttpClients.Models
 {
-    public class TelegramInviteLinkResponse
+    public class TelegramSendMessageResponse
     {
         [JsonProperty("ok")]
         public bool Ok { get; set; }
@@ -11,7 +11,7 @@ namespace Stoiximen.Infrastructure.Interfaces
         public TelegramInviteLinkResult Result { get; set; }
     }
 
-    public class TelegramInviteLinkResult
+    public class TelegramSendMessageResponse3
     {
         [JsonProperty("invite_link")]
         public string InviteLink { get; set; }
@@ -32,7 +32,7 @@ namespace Stoiximen.Infrastructure.Interfaces
         public bool IsRevoked { get; set; }
     }
 
-    public class TelegramCreator
+    public class TelegramSendMessageResponse5
     {
         [JsonProperty("id")]
         public long Id { get; set; }

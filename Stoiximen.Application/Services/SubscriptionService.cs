@@ -4,6 +4,7 @@ using Stoiximen.Application.Mappers;
 using Stoiximen.Domain.Exceptions;
 using Stoiximen.Domain.Models;
 using Stoiximen.Domain.Repositories;
+using Stoiximen.Infrastructure.HttpClients.Models;
 using Stoiximen.Infrastructure.Interfaces;
 
 namespace Stoiximen.Application.Services

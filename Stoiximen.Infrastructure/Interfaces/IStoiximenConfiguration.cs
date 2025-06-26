@@ -16,6 +16,10 @@
         // DB
         string DbConnectionString { get; }
 
+        // Services Endpoints
+        string TelegramUri { get; }
+
         int RequestLimit { get; }
+        int HttpTimeoutInSeconds { get; }
     }
 }

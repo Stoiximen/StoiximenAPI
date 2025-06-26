@@ -13,7 +13,9 @@ namespace Stoiximen.Infrastructure.Services
         public string JwtAudience { get; }
         public int JwtExpirationMinutes { get; }
         public string DbConnectionString { get; }
+        public string TelegramUri { get; }
         public int RequestLimit { get; }
+        public int HttpTimeoutInSeconds { get; }
 
         public StoiximenConfiguration(IConfiguration configuration)
         {
@@ -25,7 +27,9 @@ namespace Stoiximen.Infrastructure.Services
             JwtAudience = configuration["Security:Cryptography:AuthToken:Audience"] ?? throw new ArgumentNullException("JWT Audience not configured");
             JwtExpirationMinutes = int.Parse(configuration["Security:Cryptography:AuthToken:ExpirationMinutes"] ?? "60");
             DbConnectionString = configuration["ConnectionStrings:StoiximenDb"] ?? throw new ArgumentNullException("Database connection string not configured");
+            TelegramUri = configuration["ServicesEndpoints:TelegramApi"] ?? throw new ArgumentNullException("Telegram api URI string not configured");
             RequestLimit = Int32.Parse(configuration["Security:RequestLimit"]); /*?? throw new ArgumentNullException("RequestLimit not configured")*/; //GN fix parse 
+            HttpTimeoutInSeconds = Int32.Parse(configuration["ServicesEndpoints:HttpTimeoutInSeconds"]); /*?? throw new ArgumentNullException("RequestLimit not configured")*/; //GN fix parse 
         }
     }
 }

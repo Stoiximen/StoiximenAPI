@@ -7,6 +7,7 @@ using Stoiximen.Application.Interfaces;
 using Stoiximen.Application.Services;
 using Stoiximen.Domain.Repositories;
 using Stoiximen.Infrastructure.EF.Context;
+using Stoiximen.Infrastructure.Http.Telegram;
 using Stoiximen.Infrastructure.Interfaces;
 using Stoiximen.Infrastructure.Repositories;
 using Stoiximen.Infrastructure.Services;
@@ -28,15 +29,8 @@ public class Startup
     {
         services.AddControllers();
         services.AddHttpContextAccessor();
-        
-        services.AddHttpClient("TelegramBotClient", client =>
-        {
-        });
 
-        //services.AddHttpClient("TelegramBotClient", client =>
-        //{
-        //    client.BaseAddress = new Uri("https://api.telegram.org/");
-        //});
+        services.AddHttpClient();
 
         //.Net standards
         ConfigureSwagger(services);
@@ -91,7 +85,7 @@ public class Startup
             options.TokenValidationParameters = CreateTokenValidationParameters();
         });
     }
-    
+
 
     // Register services
     private void RegisterInternalServices(IServiceCollection services)
@@ -104,6 +98,7 @@ public class Startup
 
     private void RegisterExternalServices(IServiceCollection services)
     {
+        services.AddScoped<TelegramHttpClient>();
         services.AddScoped<ITelegramService, TelegramService>();
     }
 

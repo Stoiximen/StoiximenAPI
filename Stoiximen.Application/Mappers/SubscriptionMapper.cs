@@ -1,6 +1,6 @@
 ﻿using Stoiximen.Application.Dtos;
 using Stoiximen.Domain.Models;
-using Stoiximen.Infrastructure.Interfaces;
+using Stoiximen.Infrastructure.HttpClients.Models;
 
 namespace Stoiximen.Application.Mappers
 {
