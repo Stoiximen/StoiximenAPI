@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Stoiximen.Application.Dtos;
 using Stoiximen.Application.Interfaces;
+using Stoiximen.Infrastructure.Constants;
 using Stoiximen.Infrastructure.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -98,6 +99,8 @@ namespace Stoiximen.Application.Services
                 "LastName" => "last_name",
                 "AuthDate" => "auth_date",
                 "Hash" => "hash",
+                "Username" => "username",
+                "PhotoUrl" => "photo_url",
                 _ => throw new ArgumentException($"Unknown property: {propertyName}")
             };
         }
@@ -111,10 +114,11 @@ namespace Stoiximen.Application.Services
             //Create claims for the user
             var claims = new[]
             {
-                new Claim("telegram_id", telegramData.Id),
-                new Claim("first_name", telegramData.FirstName),
-                new Claim("last_name", telegramData.LastName),
-                new Claim("auth_date", telegramData.AuthDate),
+                new Claim(Claims.TelegramUserId, telegramData.Id),
+                new Claim(Claims.TelegramFirstName, telegramData.FirstName),
+                new Claim(Claims.TelegramLastName, telegramData.LastName),
+                new Claim(Claims.TelegramAuthDate, telegramData.AuthDate),
+                new Claim(Claims.TelegramUsername, telegramData.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat,
                     new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
