@@ -2,7 +2,7 @@
 {
     public static class Claims
     {
-        public static readonly string TelegramUserId = "user_id";
+        public static readonly string TelegramUserId = "telegram_id";
         public static readonly string TelegramFirstName = "first_name";
         public static readonly string TelegramLastName = "last_name";
         public static readonly string TelegramAuthDate = "auth_date";
