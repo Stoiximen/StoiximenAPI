@@ -118,7 +118,6 @@ namespace Stoiximen.Application.Services
                 new Claim(Claims.TelegramFirstName, telegramData.FirstName),
                 new Claim(Claims.TelegramLastName, telegramData.LastName),
                 new Claim(Claims.TelegramAuthDate, telegramData.AuthDate),
-                new Claim(Claims.TelegramUsername, telegramData.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat,
                     new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),

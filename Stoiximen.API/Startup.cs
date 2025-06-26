@@ -7,6 +7,7 @@ using Stoiximen.Application.Interfaces;
 using Stoiximen.Application.Services;
 using Stoiximen.Domain.Repositories;
 using Stoiximen.Infrastructure.EF.Context;
+using Stoiximen.Infrastructure.Http;
 using Stoiximen.Infrastructure.Http.Telegram;
 using Stoiximen.Infrastructure.Interfaces;
 using Stoiximen.Infrastructure.Repositories;
@@ -98,6 +99,7 @@ public class Startup
 
     private void RegisterExternalServices(IServiceCollection services)
     {
+        services.AddScoped<TelegramHttpClientConfiguration>();
         services.AddScoped<TelegramHttpClient>();
         services.AddScoped<ITelegramService, TelegramService>();
     }

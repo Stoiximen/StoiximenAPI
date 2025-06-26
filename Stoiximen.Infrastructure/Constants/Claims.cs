@@ -6,6 +6,5 @@
         public static readonly string TelegramFirstName = "first_name";
         public static readonly string TelegramLastName = "last_name";
         public static readonly string TelegramAuthDate = "auth_date";
-        public static readonly string TelegramUsername = "username";
     }
 }

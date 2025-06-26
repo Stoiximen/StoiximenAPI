@@ -1,49 +1,44 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Stoiximen.Infrastructure.HttpClients.Models
 {
-    public class TelegramInviteLinkResponse
+    public class TelegramInviteLinkResponse : BaseTelegramResponse<TelegramInviteLinkResult>
     {
-        [JsonProperty("ok")]
-        public bool Ok { get; set; }
-
-        [JsonProperty("result")]
-        public TelegramInviteLinkResult Result { get; set; }
     }
 
     public class TelegramInviteLinkResult
     {
-        [JsonProperty("invite_link")]
+        [JsonPropertyName("invite_link")]
         public string InviteLink { get; set; }
 
-        [JsonProperty("creator")]
+        [JsonPropertyName("creator")]
         public TelegramCreator Creator { get; set; }
 
-        [JsonProperty("member_limit")]
+        [JsonPropertyName("member_limit")]
         public int MemberLimit { get; set; }
 
-        [JsonProperty("creates_join_request")]
+        [JsonPropertyName("creates_join_request")]
         public bool CreatesJoinRequest { get; set; }
 
-        [JsonProperty("is_primary")]
+        [JsonPropertyName("is_primary")]
         public bool IsPrimary { get; set; }
 
-        [JsonProperty("is_revoked")]
+        [JsonPropertyName("is_revoked")]
         public bool IsRevoked { get; set; }
     }
 
     public class TelegramCreator
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long Id { get; set; }
 
-        [JsonProperty("is_bot")]
+        [JsonPropertyName("is_bot")]
         public bool IsBot { get; set; }
 
-        [JsonProperty("first_name")]
+        [JsonPropertyName("first_name")]
         public string FirstName { get; set; }
 
-        [JsonProperty("username")]
+        [JsonPropertyName("username")]
         public string Username { get; set; }
     }
 }

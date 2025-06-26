@@ -4,7 +4,6 @@ using Stoiximen.Application.Mappers;
 using Stoiximen.Domain.Exceptions;
 using Stoiximen.Domain.Models;
 using Stoiximen.Domain.Repositories;
-using Stoiximen.Infrastructure.HttpClients.Models;
 using Stoiximen.Infrastructure.Interfaces;
 
 namespace Stoiximen.Application.Services
@@ -36,9 +35,9 @@ namespace Stoiximen.Application.Services
                 throw new EntityNotFoundException(nameof(Subscription), subscriptionId);
             }
 
-            TelegramInviteLinkResponse response = await _telegramService.InviteUserToGroupChat(userId);
+            await _telegramService.InviteUserToGroupChat(userId);
 
-            return response.MapToSubscribeResponse();
+            return null;
         }
     }
 }

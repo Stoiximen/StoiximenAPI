@@ -33,6 +33,7 @@ namespace Stoiximen.Infrastructure.HttpClients.Base
                 _logger.LogDebug("Making GET request to: {Endpoint}", endpoint);
 
                 using var response = await _httpClient.GetAsync(endpoint, cancellationToken);
+
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -93,32 +94,6 @@ namespace Stoiximen.Infrastructure.HttpClients.Base
             catch (JsonException ex)
             {
                 _logger.LogError(ex, "JSON deserialization error for POST request to: {Endpoint}", endpoint);
-                throw;
-            }
-        }
-
-        protected async Task<string> GetStringAsync(string endpoint, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                _logger.LogDebug("Making GET string request to: {Endpoint}", endpoint);
-
-                using var response = await _httpClient.GetAsync(endpoint, cancellationToken);
-                response.EnsureSuccessStatusCode();
-
-                var content = await response.Content.ReadAsStringAsync(cancellationToken);
-                _logger.LogDebug("GET string request successful for: {Endpoint}", endpoint);
-
-                return content;
-            }
-            catch (HttpRequestException ex)
-            {
-                _logger.LogError(ex, "HTTP error during GET string request to: {Endpoint}", endpoint);
-                throw;
-            }
-            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
-            {
-                _logger.LogError(ex, "Timeout during GET string request to: {Endpoint}", endpoint);
                 throw;
             }
         }

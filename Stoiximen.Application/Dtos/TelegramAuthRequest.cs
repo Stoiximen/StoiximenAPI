@@ -14,7 +14,7 @@ namespace Stoiximen.Application.Dtos
         public string AuthDate { get; set; }
         [Required]
         public string Hash { get; set; }
-        public string Username { get; set; }
-        public string PhotoUrl { get; set; }
+        public string? Username { get; set; }
+        public string? PhotoUrl { get; set; }
     }
 }
