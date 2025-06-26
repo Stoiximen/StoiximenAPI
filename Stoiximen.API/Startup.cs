@@ -6,6 +6,7 @@ using Stoiximen.API.Middleware;
 using Stoiximen.Application.Interfaces;
 using Stoiximen.Application.Services;
 using Stoiximen.Domain.Repositories;
+using Stoiximen.Infrastructure.Constants;
 using Stoiximen.Infrastructure.EF.Context;
 using Stoiximen.Infrastructure.Http;
 using Stoiximen.Infrastructure.Http.Telegram;
@@ -197,12 +198,25 @@ public class Startup
         {
             options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
                 RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: "global",
+                    partitionKey: GetPartitionKeyForRateLimiter(context),
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
                         PermitLimit = _config.RequestLimit,
                         Window = TimeSpan.FromMinutes(1)
                     }));
         });
+    }
+
+    static string GetPartitionKeyForRateLimiter(HttpContext context)
+    {
+        var userId = context.User?.FindFirst(Claims.TelegramUserId)?.Value;
+
+        // If no user ID found, fall back to IP address or anonymous
+        if (string.IsNullOrEmpty(userId))
+        {
+            return context.Connection.RemoteIpAddress?.ToString() ?? "global";
+        }
+
+        return userId;
     }
 }
