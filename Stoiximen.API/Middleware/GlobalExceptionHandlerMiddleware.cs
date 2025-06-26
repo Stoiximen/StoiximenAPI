@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Stoiximen.Domain.Exceptions;
+using System.Net;
 using System.Text.Json;
 
 namespace Stoiximen.API.Middleware
@@ -22,9 +23,9 @@ namespace Stoiximen.API.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unhandled exception occurred. Request: {Method} {Path}", 
+                _logger.LogError(ex, "An unhandled exception occurred. Request: {Method} {Path}",
                     context.Request.Method, context.Request.Path);
-                
+
                 await HandleExceptionAsync(context, ex);
             }
         }
@@ -35,6 +36,8 @@ namespace Stoiximen.API.Middleware
 
             var (statusCode, message) = exception switch
             {
+                EntityNotFoundException => (HttpStatusCode.NotFound, exception.Message),
+                BusinessRuleViolationException => (HttpStatusCode.BadRequest, exception.Message),
                 UnauthorizedAccessException => (HttpStatusCode.Unauthorized, exception.Message),
                 ArgumentNullException => (HttpStatusCode.BadRequest, "Required parameter is missing"),
                 ArgumentException => (HttpStatusCode.BadRequest, exception.Message),

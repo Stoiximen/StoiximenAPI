@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Stoiximen.Domain.Models;
+using Stoiximen.Infrastructure.Constants;
 
 namespace Stoiximen.Infrastructure.EF.Context
 {
@@ -82,9 +83,9 @@ namespace Stoiximen.Infrastructure.EF.Context
 
             if (httpContext?.User?.Identity?.IsAuthenticated == true)
             {
-                var telegramId = httpContext.User.FindFirst("telegram_id")?.Value;
-                var firstName = httpContext.User.FindFirst("first_name")?.Value;
-                var lastName = httpContext.User.FindFirst("last_name")?.Value;
+                var telegramId = httpContext.User.FindFirst(Claims.TelegramUserId)?.Value;
+                var firstName = httpContext.User.FindFirst(Claims.TelegramFirstName)?.Value;
+                var lastName = httpContext.User.FindFirst(Claims.TelegramLastName)?.Value;
 
                 if (!string.IsNullOrEmpty(telegramId))
                 {

@@ -1,6 +1,8 @@
 ﻿using Stoiximen.Application.Dtos;
 using Stoiximen.Application.Interfaces;
 using Stoiximen.Application.Mappers;
+using Stoiximen.Domain.Exceptions;
+using Stoiximen.Domain.Models;
 using Stoiximen.Domain.Repositories;
 using Stoiximen.Infrastructure.Interfaces;
 
@@ -30,7 +32,7 @@ namespace Stoiximen.Application.Services
 
             if (subscriptions == null)
             {
-                throw new ArgumentNullException($"Subscription with ID {subscriptionId} not found.");
+                throw new EntityNotFoundException(nameof(Subscription), subscriptionId);
             }
 
             TelegramInviteLinkResponse response = await _telegramService.InviteUserToGroupChat(userId);

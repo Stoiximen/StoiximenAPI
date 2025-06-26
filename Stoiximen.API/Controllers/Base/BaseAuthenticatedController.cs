@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Stoiximen.Infrastructure.Constants;
 
 namespace Stoiximen.API.Controllers
 {
@@ -11,7 +12,7 @@ namespace Stoiximen.API.Controllers
 
         protected string? GetUserIdFromToken()
         {
-            return User?.Claims?.FirstOrDefault(c => c.Type == "telegram_id")?.Value;
+            return User?.Claims?.FirstOrDefault(c => c.Type == Claims.TelegramUserId)?.Value;
         }
     }
 }

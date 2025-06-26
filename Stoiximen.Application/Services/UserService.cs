@@ -1,6 +1,8 @@
 ﻿using Stoiximen.Application.Dtos;
 using Stoiximen.Application.Interfaces;
 using Stoiximen.Application.Mappers;
+using Stoiximen.Domain.Exceptions;
+using Stoiximen.Domain.Models;
 using Stoiximen.Domain.Repositories;
 
 namespace Stoiximen.Application.Services
@@ -20,7 +22,7 @@ namespace Stoiximen.Application.Services
 
             if (user is null)
             {
-                throw new ArgumentNullException($"User with id : {id} not found");
+                throw new EntityNotFoundException(nameof(User), id);
             }
 
             return user.MapToUserResource();
