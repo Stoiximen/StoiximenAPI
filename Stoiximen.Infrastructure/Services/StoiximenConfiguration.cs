@@ -25,11 +25,17 @@ namespace Stoiximen.Infrastructure.Services
             JwtSalt = configuration["Security:Cryptography:AuthToken:Salt"] ?? throw new ArgumentNullException("JWT Salt not configured");
             JwtIssuer = configuration["Security:Cryptography:AuthToken:Issuer"] ?? throw new ArgumentNullException("JWT Issuer not configured");
             JwtAudience = configuration["Security:Cryptography:AuthToken:Audience"] ?? throw new ArgumentNullException("JWT Audience not configured");
-            JwtExpirationMinutes = int.Parse(configuration["Security:Cryptography:AuthToken:ExpirationMinutes"] ?? "60");
             DbConnectionString = configuration["ConnectionStrings:StoiximenDb"] ?? throw new ArgumentNullException("Database connection string not configured");
             TelegramUri = configuration["ServicesEndpoints:TelegramApi"] ?? throw new ArgumentNullException("Telegram api URI string not configured");
-            RequestLimit = Int32.Parse(configuration["Security:RequestLimit"]); /*?? throw new ArgumentNullException("RequestLimit not configured")*/; //GN fix parse 
-            HttpTimeoutInSeconds = Int32.Parse(configuration["ServicesEndpoints:HttpTimeoutInSeconds"]); /*?? throw new ArgumentNullException("RequestLimit not configured")*/; //GN fix parse 
+            JwtExpirationMinutes = Int32.TryParse(configuration["Security:Cryptography:AuthToken:ExpirationMinutes"], out int jwtExpirationMinutes)
+                ? jwtExpirationMinutes
+                : throw new ArgumentNullException("Telegram Jwt expirations not configured");
+            RequestLimit = Int32.TryParse(configuration["Security:RequestLimit"], out int requestLimit)
+                ? requestLimit
+                : throw new ArgumentNullException("RequestLimit not configured");
+            HttpTimeoutInSeconds = Int32.TryParse(configuration["ServicesEndpoints:HttpTimeoutInSeconds"], out int httpTimeout)
+                ? httpTimeout
+                : throw new ArgumentNullException("Http timeout not configured");
         }
     }
 }

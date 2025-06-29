@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Stoiximen.Infrastructure.HttpClients.Models
 {
     public class BaseTelegramResponse<T> where T : class
     {
-        [JsonProperty("ok")]
+        [JsonPropertyName("ok")]
         public bool Ok { get; set; }
 
-        [JsonProperty("result")]
+        [JsonPropertyName("result")]
         public T Result { get; set; }
     }
 }
