@@ -40,9 +40,10 @@ namespace Stoiximen.Infrastructure.Repositories
             return Task.FromResult(entity);
         }
 
-        public virtual async Task<bool> DeleteAsync(TKey id, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> SoftDeleteAsync(TKey id, CancellationToken cancellationToken = default)
         {
             var entity = await GetByIdAsync(id, cancellationToken);
+
             if (entity == null)
                 return false;
 
@@ -52,15 +53,11 @@ namespace Stoiximen.Infrastructure.Repositories
                 softDeletable.DeletedAt = DateTime.UtcNow;
                 _dbSet.Update(entity);
             }
-            else
-            {
-                // Hard delete
-                _dbSet.Remove(entity);
-            }
+
             return true;
         }
 
-        public virtual Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default)
+        public virtual Task<bool> SoftDeleteAsync(T entity, CancellationToken cancellationToken = default)
         {
             if (entity == null)
                 return Task.FromResult(false);
@@ -71,18 +68,8 @@ namespace Stoiximen.Infrastructure.Repositories
                 softDeletable.DeletedAt = DateTime.UtcNow;
                 _dbSet.Update(entity);
             }
-            else
-            {
-                // Hard delete
-                _dbSet.Remove(entity);
-            }
-            return Task.FromResult(true);
-        }
 
-        // Utility
-        public virtual async Task<bool> ExistsAsync(TKey id, CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.AnyAsync(e => e.Id.Equals(id), cancellationToken);
+            return Task.FromResult(true);
         }
 
         public virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

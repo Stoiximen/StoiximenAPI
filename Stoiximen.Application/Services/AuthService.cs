@@ -44,32 +44,33 @@ namespace Stoiximen.Application.Services
 
         private bool IsTelegramHashValid(TelegramAuthRequest telegramData)
         {
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-
-            telegramData.GetType().GetProperties().ToList().ForEach(prop =>
-            {
-                var value = prop.GetValue(telegramData, null);
-                if (value != null)
-                {
-                    var key = GetKey(prop.Name);
-                    if (key == "hash")
-                    {
-                        // Skip hash property as it will be computed
-                        return;
-                    }
-                    dict.Add(key, $"{value}");
-                }
-            });
-
-            var dataCheckArray = dict.OrderBy(kvp => kvp.Key)
-                                    .Select(kvp => $"{kvp.Key}={kvp.Value}")
-                                    .ToArray();
-
-            string dataCheckString = string.Join("\n", dataCheckArray);
+            string dataCheckString = BuildDataCheckString(telegramData);
 
             string computedHash = ComputeHash(dataCheckString);
 
             return telegramData.Hash.Equals(computedHash, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string BuildDataCheckString(TelegramAuthRequest telegramData)
+        {
+            var dataDict = new SortedDictionary<string, string>();
+
+            AddIfNotEmpty(dataDict, TelegramLoginProperties.Id, telegramData.Id);
+            AddIfNotEmpty(dataDict, TelegramLoginProperties.FirstName, telegramData.FirstName);
+            AddIfNotEmpty(dataDict, TelegramLoginProperties.LastName, telegramData.LastName);
+            AddIfNotEmpty(dataDict, TelegramLoginProperties.AuthDate, telegramData.AuthDate);
+            AddIfNotEmpty(dataDict, TelegramLoginProperties.Username, telegramData.Username);
+            AddIfNotEmpty(dataDict, TelegramLoginProperties.PhotoUrl, telegramData.PhotoUrl);
+
+            return string.Join("\n", dataDict.OrderBy(kvp => kvp.Key).Select(kvp => $"{kvp.Key}={kvp.Value}"));
+        }
+
+        private static void AddIfNotEmpty(IDictionary<string, string> dictionary, string key, string? value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                dictionary[key] = value;
+            }
         }
 
         private static byte[] CreateSecretKey(string botToken)
@@ -88,21 +89,6 @@ namespace Stoiximen.Application.Services
             var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(authDataString));
 
             return Convert.ToHexString(hashBytes).ToLowerInvariant();
-        }
-
-        private string GetKey(string propertyName)
-        {
-            return propertyName switch
-            {
-                "Id" => "id",
-                "FirstName" => "first_name",
-                "LastName" => "last_name",
-                "AuthDate" => "auth_date",
-                "Hash" => "hash",
-                "Username" => "username",
-                "PhotoUrl" => "photo_url",
-                _ => throw new ArgumentException($"Unknown property: {propertyName}")
-            };
         }
 
         private string GenerateJwtToken(TelegramAuthRequest telegramData)
@@ -136,6 +122,5 @@ namespace Stoiximen.Application.Services
             // Return the serialized token
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }

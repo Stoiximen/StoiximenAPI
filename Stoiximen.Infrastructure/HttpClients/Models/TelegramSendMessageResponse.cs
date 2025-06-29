@@ -4,7 +4,6 @@ namespace Stoiximen.Infrastructure.HttpClients.Models
 {
     public class TelegramSendMessageResponse : BaseTelegramResponse<MessageResult>
     {
-
     }
 
     public class MessageResult

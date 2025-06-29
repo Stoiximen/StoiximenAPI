@@ -66,6 +66,8 @@ namespace Stoiximen.Infrastructure.EF.Context
                             if (entry.Entity is SoftDeletableEntity softDeletableEntity)
                             {
                                 var deletedAtProperty = entry.Property(nameof(SoftDeletableEntity.DeletedAt));
+
+                                // Only set DeletedBy if DeletedAt was modified and has a value
                                 if (deletedAtProperty.IsModified && softDeletableEntity.DeletedAt.HasValue)
                                 {
                                     softDeletableEntity.DeletedBy = currentUser;
